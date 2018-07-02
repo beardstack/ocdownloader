@@ -18,7 +18,9 @@ class YouTube
     private $ForceIPv4 = true;
     private $ProxyAddress = null;
     private $ProxyPort = 0;
-    private $Directory = '/var/www/html/data/Yan/files/Downloads/';
+    private $Directory = null;
+    private $CurrentUID;
+    private $DownloadsFolder;
 
     public function __construct($YTDLBinary, $URL)
     {
@@ -42,6 +44,37 @@ class YouTube
        $this->Directory = $dir;
     }
 
+    public function setDownloadsFolder($dir)
+    {
+       $this->DownloadsFolder = $dir; 
+    }
+
+    public function setCurrentUID($UID)
+    {
+       $this->CurrentUID = $UID;
+    }
+
+    protected function syncDownloadsFolder()
+    {
+        $user = $this->CurrentUID;
+        $scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
+        $path = '/'.$user.'/files/'.ltrim($this->DownloadsFolder, '/\\');
+
+        try {
+             $scanner->scan($path);
+        } 
+        catch (ForbiddenException $e) {
+            #forbidden error
+	    error_log("HERE --> Forbidden error",0);
+        } 
+        catch (\Exception $e) {
+            #other error
+	    error_log("HERE --> Other Error". $e ,0);
+        }
+
+    }
+
+
     public function getVideoData($ExtractAudio = false)
     {
         $Proxy = null;
@@ -57,6 +90,13 @@ class YouTube
              $this->YTDLBinary.' -i \''.$this->URL.'\' '
 	      .'-o ' . $this->Directory .'/\'%(title)s.%(ext)s\''
         );
+
+#	error_log("YTDL Output:". $Output, 0);
+	$ytdl=explode("\n", $Output);
+	foreach ($ytdl as $y) { error_log ("YTDL Output:". $y."\n"); }
+	
+	$this->syncDownloadsFolder();
+	error_log("HERE --> Scan done", 0);
 
         $index=(preg_match('/&index=(\d+)/', $this->URL, $current))?$current[1]:1;
 

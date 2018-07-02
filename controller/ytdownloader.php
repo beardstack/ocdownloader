@@ -112,12 +112,17 @@ class YTDownloader extends Controller
                     $YouTube->SetForceIPv4(false);
                 }
 
+#		error_log('HERE --> '. $this->DownloadsFolder, 0);
+
 		if (!is_null($this->AbsoluteDownloadsFolder)) {
 		    $YouTube->SetDirectory($this->AbsoluteDownloadsFolder);
-		}
-		else
-		{
-		}
+		} else { error_log("AbsoluteDownloadsFolder is null", 0); }
+
+		if (!is_null($this->DownloadsFolder)) {
+		    $YouTube->setDownloadsFolder($this->DownloadsFolder);
+		} else { error_log("DownloadsFolder is null", 0); }
+
+		$YouTube->setCurrentUID($this->CurrentUID);
 
                 // Extract Audio YES
                 if (isset($_POST['OPTIONS']['YTExtractAudio'])
