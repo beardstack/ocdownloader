@@ -11,6 +11,44 @@
 
 namespace OCA\ocDownloader\Controller\Lib;
 
+class RunYTDL {
+
+    public $cmd = '';
+    private $descriptors = array(
+            0 => array('pipe', 'r'),
+            1 => array('pipe', 'w'),
+            2 => array('pipe', 'w')
+        );
+    public $pipes = NULL;
+    public $resource = NULL;
+    private $exitcode = NULL;
+
+    function __construct($cmd = '')
+    {
+        $this->cmd = $cmd;
+        $this->resource = proc_open($this->cmd, $this->descriptors, $this->pipes);
+    }
+   
+    public function getContents()
+    {
+        return stream_get_contents($this->pipes[1]);
+    }
+
+    public function isRunning()
+    {
+        $status = proc_get_status($this->resource);
+        if ($status['running'] === FALSE && $this->exitcode === NULL)
+            $this->exitcode = $status['exitcode'];
+
+        return $status['running'];
+    }
+
+    public function getExitcode()
+    {
+        return $this->exitcode;
+    }
+}
+
 class YouTube
 {
     private $YTDLBinary = null;
@@ -86,10 +124,10 @@ class YouTube
         //youtube multibyte support
         putenv('LANG=en_US.UTF-8');
 
-        $Output = shell_exec(
-             $this->YTDLBinary.' -i \''.$this->URL.'\' '
-	      .'-o ' . $this->Directory .'/\'%(title)s.%(ext)s\''
-        );
+#        $Output = shell_exec(
+#             $this->YTDLBinary.' -i \''.$this->URL.'\' '
+	      #.'-o ' . $this->Directory .'/\'%(title)s.%(ext)s\''
+	    #);
 
 #	error_log("YTDL Output:". $Output, 0);
 	$ytdl=explode("\n", $Output);
