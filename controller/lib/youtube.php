@@ -31,7 +31,25 @@ class RunYTDL {
    
     public function getContents()
     {
-        return stream_get_contents($this->pipes[1]);
+       # return stream_get_contents($this->pipes[1]);
+	$line = null;
+	$cnt = 0;
+	while (!feof($this->pipes[1]))
+	{
+		$line = fgets($this->pipes[1]);
+#		$cnt++;
+#		error_log($cnt . " HERE --> ". $line,0);		 
+		$this->updateDownloadStatus($line);
+	}
+	return '';	
+    }
+
+    private function updateDownloadStatus($statusUpdate)
+    {
+        if (preg_match('/decryption failed/i', $statusUpdate)) { 
+	        return false; 
+        } 
+	else { error_log($statusUpdate,0); } 
     }
 
     public function isRunning()
@@ -59,6 +77,8 @@ class YouTube
     private $Directory = null;
     private $CurrentUID;
     private $DownloadsFolder;
+    private $process = null;
+    private $YTDLOutput;
 
     public function __construct($YTDLBinary, $URL)
     {
@@ -128,6 +148,21 @@ class YouTube
 #             $this->YTDLBinary.' -i \''.$this->URL.'\' '
 	      #.'-o ' . $this->Directory .'/\'%(title)s.%(ext)s\''
 	    #);
+
+         $cmd = $this->YTDLBinary.' --newline -i \''.$this->URL.'\' ' .'-o ' . $this->Directory .'/\'%(title)s.%(ext)s\'';
+
+	$this->process = new RunYTDL($cmd);
+
+	if($this->process->isRunning())
+	{
+		$this->YTDLOutput = $this->process->getContents();
+		error_log("HERE" . $this->YTDLOutput . '\n');
+	}
+
+	
+
+
+	
 
 #	error_log("YTDL Output:". $Output, 0);
 	$ytdl=explode("\n", $Output);
