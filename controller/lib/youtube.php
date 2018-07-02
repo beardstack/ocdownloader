@@ -37,8 +37,6 @@ class RunYTDL {
 	while (!feof($this->pipes[1]))
 	{
 		$line = fgets($this->pipes[1]);
-#		$cnt++;
-#		error_log($cnt . " HERE --> ". $line,0);		 
 		$this->updateDownloadStatus($line);
 	}
 	return '';	
@@ -46,12 +44,12 @@ class RunYTDL {
 
     private function updateDownloadStatus($statusUpdate)
     {
-        if (preg_match('/decryption failed/i', $statusUpdate)) { 
-	        return false; 
+        if (preg_match('/\[download\] Downloading playlist/i', $statusUpdate)) { 
+		error_log("I AM TOTALLY DOWNLOADING A PLAYLIST",0);
         }
-	if (preg_match('[download] Downloading playlist/i', $statusUpdate) {
-		error_log("I AM TOTALLY DOWNLOADING A PLAYLIST,0);
-	}
+#	if (preg_match('/\[download\] Downloading playlist/i', $statusUpdate) {
+#		error_log("I AM TOTALLY DOWNLOADING A PLAYLIST",0);
+#	}
 	    
 #[youtube:playlist] PL_0syoj08QDR6Rdg7VoWP-_aI5PbBjA58: Downloading webpage
 #[download] Downloading playlist: UpZik
@@ -66,8 +64,7 @@ class RunYTDL {
 #[ffmpeg] Destination: /var/www/html/data/Yan/files/Downloads/Wicked_Ways_-_Get_Naughty_ASH_Remix.mp3
 #Deleting original file /var/www/html/data/Yan/files/Downloads/Wicked_Ways_-_Get_Naughty_ASH_Remix.webm (pass -k to keep)
 #[ffmpeg] Adding metadata to '/var/www/html/data/Yan/files/Downloads/Wicked_Ways_-_Get_Naughty_ASH_Remix.mp3
-#[ffmpeg] Adding thumbnail to /var/www/html/data/Yan/files/Downloads/Wicked_Ways_-_Get_Naughty_ASH_Remix.mp3                                                                                                                                                                                     
-		    
+#[ffmpeg] Adding thumbnail to /var/www/html/data/Yan/files/Downloads/Wicked_Ways_-_Get_Naughty_ASH_Remix.mp3
 	#else { error_log($statusUpdate,0); } 
     }
 
