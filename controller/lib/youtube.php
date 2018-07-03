@@ -170,11 +170,11 @@ class YouTube
 
 	$this->process = new RunYTDL($cmd);
 
-	if($this->process->isRunning())
-	{
-		$this->YTDLOutput = $this->process->getContents();
-		error_log("HERE" . $this->YTDLOutput . '\n');
-	}
+#	if($this->process->isRunning())
+#	{
+#		$this->YTDLOutput = $this->process->getContents();
+#		error_log("HERE" . $this->YTDLOutput);
+#	}
 
 	
 
@@ -182,47 +182,47 @@ class YouTube
 	
 
 #	error_log("YTDL Output:". $Output, 0);
-	$ytdl=explode("\n", $Output);
-	foreach ($ytdl as $y) { error_log ("YTDL Output:". $y."\n"); }
+#	$ytdl=explode("\n", $Output);
+#	foreach ($ytdl as $y) { error_log ("YTDL Output:". $y."\n"); }
 	
 	$this->syncDownloadsFolder();
 	error_log("HERE --> Scan done", 0);
 
-        $index=(preg_match('/&index=(\d+)/', $this->URL, $current))?$current[1]:1;
+ #       $index=(preg_match('/&index=(\d+)/', $this->URL, $current))?$current[1]:1;
 
-        if (!is_null($Output)) {
-            $Output = explode("\n", $Output);
+#        if (!is_null($Output)) {
+#            $Output = explode("\n", $Output);
 
-            if (count($Output) >= 2) {
-                $OutProcessed = array();
-                $current_index=1;
-                for ($I = 0; $I < count($Output); $I++) {
-                    if (mb_strlen(trim($Output[$I])) > 0) {
-                        if (mb_strpos(urldecode($Output[$I]), 'https://') === 0
-                                && mb_strpos(urldecode($Output[$I]), '&mime=video/') !== false) {
-                            $OutProcessed['VIDEO'] = $Output[$I];
-                        } elseif (mb_strpos(urldecode($Output[$I]), 'https://') === 0
-                                && mb_strpos(urldecode($Output[$I]), '&mime=audio/') !== false) {
-                            $OutProcessed['AUDIO'] = $Output[$I];
-                        } else {
-                            $OutProcessed['FULLNAME'] = $Output[$I];
-                        }
-                    }
-                 if ((!empty($OutProcessed['VIDEO']) || !empty($OutProcessed['AUDIO'])) && !empty($OutProcessed['FULLNAME']))
-                    {
-                        if ($index == $current_index)
-                        {
-                            break;
-                        } else {
-                            $OutProcessed = array();
-                            $current_index++;
-                        }
-                    }
-                }
-                return $OutProcessed;
-            }
-        }
-        return null;
-    }
+#            if (count($Output) >= 2) {
+#                $OutProcessed = array();
+#                $current_index=1;
+#                for ($I = 0; $I < count($Output); $I++) {
+#                    if (mb_strlen(trim($Output[$I])) > 0) {
+#                        if (mb_strpos(urldecode($Output[$I]), 'https://') === 0
+#                                && mb_strpos(urldecode($Output[$I]), '&mime=video/') !== false) {
+#                            $OutProcessed['VIDEO'] = $Output[$I];
+#                        } elseif (mb_strpos(urldecode($Output[$I]), 'https://') === 0
+#                                && mb_strpos(urldecode($Output[$I]), '&mime=audio/') !== false) {
+#                            $OutProcessed['AUDIO'] = $Output[$I];
+#                        } else {
+#                            $OutProcessed['FULLNAME'] = $Output[$I];
+#                        }
+#                    }
+#                 if ((!empty($OutProcessed['VIDEO']) || !empty($OutProcessed['AUDIO'])) && !empty($OutProcessed['FULLNAME']))
+#                    {
+#                        if ($index == $current_index)
+#                        {
+#                            break;
+#                        } else {
+#                            $OutProcessed = array();
+#                            $current_index++;
+#                        }
+#                    }
+#                }
+#                return $OutProcessed;
+#            }
+#       }
+#        return null;
+#    }
 
 }
