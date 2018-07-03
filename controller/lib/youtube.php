@@ -184,7 +184,7 @@ class YouTube
 	$this->syncDownloadsFolder();
 	error_log("HERE --> Scan done", 0);
 
-/*     $index=(preg_match('/&index=(\d+)/', $this->URL, $current))?$current[1]:1;
+     $index=(preg_match('/&index=(\d+)/', $this->URL, $current))?$current[1]:1;
 
         if (!is_null($Output)) {
             $Output = explode("\n", $Output);
@@ -219,6 +219,6 @@ class YouTube
             }
        }
         return null;
-    } */
+    } 
 
 }
