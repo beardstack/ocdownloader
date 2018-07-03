@@ -46,23 +46,24 @@ class RunYTDL {
     {
 	#playlist downloading
         if (preg_match('/\[download\] Downloading playlist/i', $statusUpdate)) { 
-		error_log("I AM TOTALLY DOWNLOADING A PLAYLIST",0);
+		error_log("I AM TOTALLY DOWNLOADING A PLAYLIST" ,0);
         }
 	#
 	if (preg_match('/\[download\] Downloading playlist: (.*)/i', $statusUpdate, $out)) { 
 		error_log("Playlist Name: ". $out[1] ,0);
         }
 	if (preg_match('/\[youtube\] .* Writing thumbnail to: (.*)/i', $statusUpdate, $out)) { 
-		error_log("thumbnail: " . $out[1],0);
+		$path_parts = pathinfo($out[1]);
+		error_log("File: " . $path_parts['filename'] ,0);
         }
 	if (preg_match('/\[download\]\s*(.*)\%.*ETA /i', $statusUpdate, $out)) { 
 		error_log("ETA Update: ". $out[1] ,0);
         }
 	if (preg_match('/\[ffmpeg\] Destination:/i', $statusUpdate)) { 
-		error_log("Post-Processing",0);
+		error_log("Post-Processing" ,0);
         }
 	if (preg_match('/\[ffmpeg\] Adding thumbnail/i', $statusUpdate)) { 
-		error_log("Finished",0);
+		error_log("Finished" ,0);
         }
 #	if (preg_match('/\[download\] Downloading playlist/i', $statusUpdate) {
 #		error_log("I AM TOTALLY DOWNLOADING A PLAYLIST",0);
