@@ -112,15 +112,15 @@ class YTDownloader extends Controller
                     $YouTube->SetForceIPv4(false);
                 }
 
-		if (!is_null($this->AbsoluteDownloadsFolder)) {
-		    $YouTube->SetDirectory($this->AbsoluteDownloadsFolder);
-		} else { error_log("AbsoluteDownloadsFolder is null", 0); }
+				if (!is_null($this->AbsoluteDownloadsFolder)) {
+					$YouTube->SetDirectory($this->AbsoluteDownloadsFolder);
+				} else { error_log("AbsoluteDownloadsFolder is null", 0); }
 
-		if (!is_null($this->DownloadsFolder)) {
-		    $YouTube->setDownloadsFolder($this->DownloadsFolder);
-		} else { error_log("DownloadsFolder is null", 0); }
+				if (!is_null($this->DownloadsFolder)) {
+					$YouTube->setDownloadsFolder($this->DownloadsFolder);
+				} else { error_log("DownloadsFolder is null", 0); }
 
-		$YouTube->setCurrentUID($this->CurrentUID);
+				$YouTube->setCurrentUID($this->CurrentUID);
 
                 // Extract Audio YES
                 if (isset($_POST['OPTIONS']['YTExtractAudio'])
@@ -239,13 +239,30 @@ class YTDownloader extends Controller
                           'ISTORRENT' => false
                     ));
 		    */
-
+				/* return new JSONResponse(array(
+                          'ERROR' => false,
+                          'MESSAGE' =>(string)$this->L10N->t('Download started'),
+                          'GID' => $AddURI['result'],
+                          'PROGRESSVAL' => round((($Progress) * 100), 2) . '%',
+                          'PROGRESS' => is_null($ProgressString) ?(string)$this->L10N->t('N/A') : $ProgressString,
+                          'STATUS' => isset($Status['result']['status'])
+                          ?(string)$this->L10N->t(ucfirst($Status['result']['status']))
+                          :(string)$this->L10N->t('N/A'),
+                          'STATUSID' => Tools::getDownloadStatusID($Status['result']['status']),
+                          'SPEED' => isset($Status['result']['downloadSpeed'])
+                          ?Tools::formatSizeUnits($Status['result']['downloadSpeed'])
+                          .'/s' :(string)$this->L10N->t('N/A'),
+                          'FILENAME' =>$DL['FILENAME'],
+                          'FILENAME_SHORT' => Tools::getShortFilename($DL['FILENAME']),
+                          'PROTO' => $DL['TYPE'],
+                          'ISTORRENT' => false
+                    ));
                 } else {
                     return new JSONResponse(array(
                           'ERROR' => true,
                           'MESSAGE' =>(string)$this->L10N->t('Returned GID is null ! Is Aria2c running as a daemon ?')
                     ));
-                }
+                } */
             } catch (Exception $E) {
                 return new JSONResponse(array('ERROR' => true, 'MESSAGE' => $E->getMessage()));
             }
