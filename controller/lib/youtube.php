@@ -44,45 +44,28 @@ class RunYTDL {
 
     private function updateDownloadStatus($statusUpdate)
     {
-	#playlist downloading
-        if (preg_match('/\[download\] Downloading playlist/i', $statusUpdate)) { 
-		error_log("I AM TOTALLY DOWNLOADING A PLAYLIST" ,0);
-        }
-	#
+	#extract playlist info
 	if (preg_match('/\[download\] Downloading playlist: (.*)/i', $statusUpdate, $out)) { 
 		error_log("Playlist Name: ". $out[1] ,0);
         }
-	if (preg_match('/\[youtube\] .* Writing thumbnail to: (.*)/i', $statusUpdate, $out)) { 
+	#extract file being downloaded
+	elseif (preg_match('/\[youtube\] .* Writing thumbnail to: (.*)/i', $statusUpdate, $out)) { 
 		$path_parts = pathinfo($out[1]);
 		error_log("File: " . $path_parts['filename'] ,0);
         }
-	if (preg_match('/\[download\]\s*(.*)\%.*ETA /i', $statusUpdate, $out)) { 
+	#extract completion updates
+	elseif (preg_match('/\[download\]\s*(.*)\%.*ETA /i', $statusUpdate, $out)) { 
 		error_log("ETA Update: ". $out[1] ,0);
         }
-	if (preg_match('/\[ffmpeg\] Destination:/i', $statusUpdate)) { 
+	#Status = post-processing
+	elseif (preg_match('/\[ffmpeg\] Destination:/i', $statusUpdate)) { 
 		error_log("Post-Processing" ,0);
         }
-	if (preg_match('/\[ffmpeg\] Adding thumbnail/i', $statusUpdate)) { 
+	#Status = DONE
+	elseif (preg_match('/\[ffmpeg\] Adding thumbnail/i', $statusUpdate)) { 
 		error_log("Finished" ,0);
         }
-#	if (preg_match('/\[download\] Downloading playlist/i', $statusUpdate) {
-#		error_log("I AM TOTALLY DOWNLOADING A PLAYLIST",0);
-#	}
-	    
-#[youtube:playlist] PL_0syoj08QDR6Rdg7VoWP-_aI5PbBjA58: Downloading webpage // IGNORE
-#[download] Downloading playlist: UpZik 
-#[youtube:playlist] playlist UpZik: Downloading 16 videos // IGNORE
-#[download] Downloading video 1 of 16 // IGNORE
-#[youtube] p_uDKzT6bpA: Downloading webpage
-#[youtube] p_uDKzT6bpA: Downloading video info webpage
-#[youtube] p_uDKzT6bpA: Downloading thumbnail
-#[youtube] p_uDKzT6bpA: Writing thumbnail to: /var/www/html/data/Yan/files/Downloads/Wicked_Ways_-_Get_Naughty_ASH_Remix.jpg
-#[download] Destination: /var/www/html/data/Yan/files/Downloads/Wicked_Ways_-_Get_Naughty_ASH_Remix.webm
-#[download]   0.0% of 3.33MiB at Unknown speed ETA Unknown ETA
-#[ffmpeg] Destination: /var/www/html/data/Yan/files/Downloads/Wicked_Ways_-_Get_Naughty_ASH_Remix.mp3
-#Deleting original file /var/www/html/data/Yan/files/Downloads/Wicked_Ways_-_Get_Naughty_ASH_Remix.webm (pass -k to keep)
-#[ffmpeg] Adding metadata to '/var/www/html/data/Yan/files/Downloads/Wicked_Ways_-_Get_Naughty_ASH_Remix.mp3
-#[ffmpeg] Adding thumbnail to /var/www/html/data/Yan/files/Downloads/Wicked_Ways_-_Get_Naughty_ASH_Remix.mp3
+
 	#else { error_log($statusUpdate,0); } 
     }
 
