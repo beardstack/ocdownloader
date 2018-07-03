@@ -49,15 +49,15 @@ class RunYTDL {
 		error_log("Playlist Name: ". $out[1] ,0);
         }
 	#extract file being downloaded
-	elseif (preg_match('/\[youtube\] .* Writing thumbnail to: (.*)/i', $statusUpdate, $out)) { 
+	if (preg_match('/\[youtube\] .* Writing thumbnail to: (.*)/i', $statusUpdate, $out)) { 
 		$path_parts = pathinfo($out[1]);
 		error_log("File: " . $path_parts['filename'] ,0);
         }
 	#extract completion updates
-	elseif (preg_match('/\[download\]\s*(.*)ETA /i', $statusUpdate, $out)) { 
+	if (preg_match('/\[download\]\s*(.*)ETA /i', $statusUpdate, $out)) { 
 		error_log("Detailed ETA Update: ". $out[1] ,0);
 	}
-	elseif (preg_match('/\[download\]\s*(.*)\%.*ETA /i', $statusUpdate, $out)) { 
+	if (preg_match('/\[download\]\s*(.*)\%.*ETA /i', $statusUpdate, $out)) { 
 		error_log("ETA Update: ". $out[1] ,0);
         }
 	#Status = post-processing
