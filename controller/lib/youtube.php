@@ -54,6 +54,9 @@ class RunYTDL {
 		error_log("File: " . $path_parts['filename'] ,0);
         }
 	#extract completion updates
+	elseif (preg_match('/\[download\]\s*(.*)ETA /i', $statusUpdate, $out)) { 
+		error_log("Detailed ETA Update: ". $out[1] ,0);
+	}
 	elseif (preg_match('/\[download\]\s*(.*)\%.*ETA /i', $statusUpdate, $out)) { 
 		error_log("ETA Update: ". $out[1] ,0);
         }
@@ -96,11 +99,13 @@ class YouTube
     private $DownloadsFolder;
     private $process = null;
     private $YTDLOutput;
+    private $GID;
 
     public function __construct($YTDLBinary, $URL)
     {
         $this->YTDLBinary = $YTDLBinary;
         $this->URL = $URL;
+
     }
 
     public function setForceIPv4($ForceIPv4)
@@ -178,10 +183,10 @@ class YouTube
 	
 	$this->syncDownloadsFolder();
 	error_log("HERE --> Scan done", 0);
-
+/*
      $index=(preg_match('/&index=(\d+)/', $this->URL, $current))?$current[1]:1;
 
-        /* if (!is_null($Output)) {
+         if (!is_null($Output)) {
             $Output = explode("\n", $Output);
 
             if (count($Output) >= 2) {
