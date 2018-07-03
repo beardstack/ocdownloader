@@ -125,8 +125,8 @@ class YTDownloader extends Controller
                 // Extract Audio YES
                 if (isset($_POST['OPTIONS']['YTExtractAudio'])
                 && strcmp($_POST['OPTIONS']['YTExtractAudio'], 'true') == 0) {
-                    $VideoData = $YouTube->getVideoData(true);
-                    if (!isset($VideoData['AUDIO']) || !isset($VideoData['FULLNAME'])) {
+                    $VideoData = $YouTube->download(true);
+/*                    if (!isset($VideoData['AUDIO']) || !isset($VideoData['FULLNAME'])) {
                         return new JSONResponse(array(
                               'ERROR' => true,
                               'MESSAGE' =>(string)$this->L10N->t('Unable to retrieve true YouTube audio URL')
@@ -137,10 +137,11 @@ class YTDownloader extends Controller
                         'FILENAME' => Tools::cleanString($VideoData['FULLNAME']),
                         'TYPE' => 'YT Audio'
                     );
+*/
                 } else // No audio extract
                 {
-                    $VideoData = $YouTube->getVideoData();
-                    if (!isset($VideoData['VIDEO']) || !isset($VideoData['FULLNAME'])) {
+                    $VideoData = $YouTube->download();
+/*                    if (!isset($VideoData['VIDEO']) || !isset($VideoData['FULLNAME'])) {
                         return new JSONResponse(array(
                               'ERROR' => true,
                               'MESSAGE' =>(string)$this->L10N->t('Unable to retrieve true YouTube video URL')
@@ -151,6 +152,7 @@ class YTDownloader extends Controller
                         'FILENAME' => Tools::cleanString($VideoData['FULLNAME']),
                         'TYPE' => 'YT Video'
                     );
+*/
                 }
 
                 // If target file exists, create a new one
@@ -182,7 +184,7 @@ class YTDownloader extends Controller
                 $AddURI =($this->WhichDownloader == 0
                 ?Aria2::addUri(array($DL['URL']), array('Params' => $OPTIONS))
                 :CURL::addUri($DL['URL'], $OPTIONS));
-*/
+
                 if (isset($AddURI['result']) && !is_null($AddURI['result'])) {
                     $SQL = 'INSERT INTO `*PREFIX*ocdownloader_queue`
                     (`UID`, `GID`, `FILENAME`, `PROTOCOL`, `STATUS`, `TIMESTAMP`)
@@ -205,7 +207,7 @@ class YTDownloader extends Controller
                     ));
 
                     sleep(1);
-/*                     $Status = Aria2::tellStatus($AddURI['result']);
+                     $Status = Aria2::tellStatus($AddURI['result']);
 
                     $Progress = 0;
                     if ($Status['result']['totalLength'] > 0) {
@@ -216,9 +218,28 @@ class YTDownloader extends Controller
                         $Status['result']['completedLength'],
                         $Status['result']['totalLength'],
                         $Progress
-                    ); */
+                    ); 
 
                     return new JSONResponse(array(
+                          'ERROR' => false,
+                          'MESSAGE' =>(string)$this->L10N->t('Download started'),
+                          'GID' => $AddURI['result'],
+                          'PROGRESSVAL' => round((($Progress) * 100), 2) . '%',
+                          'PROGRESS' => is_null($ProgressString) ?(string)$this->L10N->t('N/A') : $ProgressString,
+                          'STATUS' => isset($Status['result']['status'])
+                          ?(string)$this->L10N->t(ucfirst($Status['result']['status']))
+                          :(string)$this->L10N->t('N/A'),
+                          'STATUSID' => Tools::getDownloadStatusID($Status['result']['status']),
+                          'SPEED' => isset($Status['result']['downloadSpeed'])
+                          ?Tools::formatSizeUnits($Status['result']['downloadSpeed'])
+                          .'/s' :(string)$this->L10N->t('N/A'),
+                          'FILENAME' =>$DL['FILENAME'],
+                          'FILENAME_SHORT' => Tools::getShortFilename($DL['FILENAME']),
+                          'PROTO' => $DL['TYPE'],
+                          'ISTORRENT' => false
+                    ));
+		    */
+		    return new JSONResponse(array(
                           'ERROR' => false,
                           'MESSAGE' =>(string)$this->L10N->t('Download started'),
                           'GID' => $AddURI['result'],
