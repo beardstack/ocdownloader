@@ -170,11 +170,11 @@ class YouTube
 
 	$this->process = new RunYTDL($cmd);
 
-#	if($this->process->isRunning())
-#	{
-#		$this->YTDLOutput = $this->process->getContents();
-#		error_log("HERE" . $this->YTDLOutput);
-#	}
+	if($this->process->isRunning())
+	{
+		$this->YTDLOutput = $this->process->getContents();
+		error_log("HERE" . $this->YTDLOutput);
+	}
 
 	
 
