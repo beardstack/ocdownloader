@@ -44,17 +44,34 @@ class RunYTDL {
 
     private function updateDownloadStatus($statusUpdate)
     {
+	#playlist downloading
         if (preg_match('/\[download\] Downloading playlist/i', $statusUpdate)) { 
 		error_log("I AM TOTALLY DOWNLOADING A PLAYLIST",0);
+        }
+	#
+	if (preg_match('/\[download\] Downloading playlist: /i', $statusUpdate)) { 
+		error_log("Playlist",0);
+        }
+	if (preg_match('/\[youtube\] .* Writing thumbnail to: /i', $statusUpdate)) { 
+		error_log("thumbnail",0);
+        }
+	if (preg_match('/\[download\] .* ETA /i', $statusUpdate)) { 
+		error_log("ETA Update",0);
+        }
+	if (preg_match('/\[ffmpeg\] Destination:/i', $statusUpdate)) { 
+		error_log("Post-Processing",0);
+        }
+	if (preg_match('/\[ffmpeg\] Adding thumbnail/i', $statusUpdate)) { 
+		error_log("Finished",0);
         }
 #	if (preg_match('/\[download\] Downloading playlist/i', $statusUpdate) {
 #		error_log("I AM TOTALLY DOWNLOADING A PLAYLIST",0);
 #	}
 	    
-#[youtube:playlist] PL_0syoj08QDR6Rdg7VoWP-_aI5PbBjA58: Downloading webpage
-#[download] Downloading playlist: UpZik
-#[youtube:playlist] playlist UpZik: Downloading 16 videos
-#[download] Downloading video 1 of 16
+#[youtube:playlist] PL_0syoj08QDR6Rdg7VoWP-_aI5PbBjA58: Downloading webpage // IGNORE
+#[download] Downloading playlist: UpZik 
+#[youtube:playlist] playlist UpZik: Downloading 16 videos // IGNORE
+#[download] Downloading video 1 of 16 // IGNORE
 #[youtube] p_uDKzT6bpA: Downloading webpage
 #[youtube] p_uDKzT6bpA: Downloading video info webpage
 #[youtube] p_uDKzT6bpA: Downloading thumbnail
