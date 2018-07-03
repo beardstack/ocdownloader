@@ -92,7 +92,7 @@ class RunYTDL {
 	#extract playlist info
 	if (preg_match('/\[download\] Downloading playlist: (.*)/i', $in, $out)) { 
 		error_log("Playlist Name: ". $out[1] ,0);
-		$this->temp; = $out[1]; 
+		$this->temp = $out[1]; 
         }
 	#extract file being downloaded
 	elseif (preg_match('/\[youtube\] .* Writing thumbnail to: (.*)/i', $in, $out)) { 
