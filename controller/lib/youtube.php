@@ -77,7 +77,7 @@ class RunYTDL {
 #	if (preg_match('/\[download\]\s*(.*)ETA /i', $statusUpdate, $out)) { 
 #		error_log("Detailed ETA Update: ". $out[1] ,0);
 #	}
-	if (preg_match('/\[download\]\s*(.*)\% of (.*)MiB at (.*)\w .*ETA /i', $statusUpdate, $out)) { 
+	if (preg_match('/\[download\]\s*(.*)\% of (.*)MiB at (\d*).*ETA /i', $statusUpdate, $out)) { 
 		error_log("%complete: ". $out[1] . " size: ". $out[2] . " speed: ". $out[3]   ,0);
 		#$out[1] = %complete
 		#$out[2] = size
