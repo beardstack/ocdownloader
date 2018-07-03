@@ -154,6 +154,11 @@ class YTDownloader extends Controller
                     );
 */
                 }
+		return new JSONResponse(
+                	array(
+                    	'ERROR' => true,
+                    	'MESSAGE' =>'This is not meant to pass'
+                	));
 
                 // If target file exists, create a new one
 /*                 if (\OC\Files\Filesystem::file_exists($this->DownloadsFolder . '/' . $DL['FILENAME'])) {
