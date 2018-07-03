@@ -181,13 +181,13 @@ class YouTube
 
      $index=(preg_match('/&index=(\d+)/', $this->URL, $current))?$current[1]:1;
 
-        if (!is_null($Output)) {
+        /* if (!is_null($Output)) {
             $Output = explode("\n", $Output);
 
             if (count($Output) >= 2) {
                 $OutProcessed = array();
                 $current_index=1;
-/*                 for ($I = 0; $I < count($Output); $I++) {
+                 for ($I = 0; $I < count($Output); $I++) {
                     if (mb_strlen(trim($Output[$I])) > 0) {
                         if (mb_strpos(urldecode($Output[$I]), 'https://') === 0
                                 && mb_strpos(urldecode($Output[$I]), '&mime=video/') !== false) {
@@ -209,10 +209,10 @@ class YouTube
                             $current_index++;
                         }
                     }
-                } */
+                } 
                 return $OutProcessed;
             }
-       }
+       } */
         return null;
     } 
 
