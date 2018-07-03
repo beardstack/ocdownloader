@@ -55,8 +55,8 @@ class RunYTDL {
 	if (preg_match('/\[youtube\] .* Writing thumbnail to: /i', $statusUpdate)) { 
 		error_log("thumbnail",0);
         }
-	if (preg_match('/\[download\]\s*(.*)\%.*ETA /i', $statusUpdate)) { 
-		error_log("ETA Update",0);
+	if (preg_match('/\[download\]\s*(.*)\%.*ETA /i', $statusUpdate, $out)) { 
+		error_log("ETA Update: ". $out ,0);
         }
 	if (preg_match('/\[ffmpeg\] Destination:/i', $statusUpdate)) { 
 		error_log("Post-Processing",0);
