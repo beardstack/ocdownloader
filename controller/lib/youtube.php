@@ -54,11 +54,14 @@ class RunYTDL {
 		error_log("File: " . $path_parts['filename'] ,0);
         }
 	#extract completion updates
-	if (preg_match('/\[download\]\s*(.*)ETA /i', $statusUpdate, $out)) { 
-		error_log("Detailed ETA Update: ". $out[1] ,0);
-	}
-	if (preg_match('/\[download\]\s*(.*)\%.*ETA /i', $statusUpdate, $out)) { 
-		error_log("ETA Update: ". $out[1] ,0);
+#	if (preg_match('/\[download\]\s*(.*)ETA /i', $statusUpdate, $out)) { 
+#		error_log("Detailed ETA Update: ". $out[1] ,0);
+#	}
+	if (preg_match('/\[download\]\s*(.*)\% of (.*)MiB at (.*)ETA /i', $statusUpdate, $out)) { 
+		error_log("%complete: ". $out[1] . " size: ". $out[2] . " speed: ". $out[3]   ,0);
+		#$out[1] = %complete
+		#$out[2] = size
+		#$out[3] = speed
         }
 	#Status = post-processing
 	elseif (preg_match('/\[ffmpeg\] Destination:/i', $statusUpdate)) { 
