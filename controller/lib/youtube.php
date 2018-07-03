@@ -49,11 +49,11 @@ class RunYTDL {
 		error_log("I AM TOTALLY DOWNLOADING A PLAYLIST",0);
         }
 	#
-	if (preg_match('/\[download\] Downloading playlist: /i', $statusUpdate)) { 
-		error_log("Playlist",0);
+	if (preg_match('/\[download\] Downloading playlist: /i', $statusUpdate, $out)) { 
+		error_log("Playlist Name: ". $out[1] ,0);
         }
-	if (preg_match('/\[youtube\] .* Writing thumbnail to: /i', $statusUpdate)) { 
-		error_log("thumbnail",0);
+	if (preg_match('/\[youtube\] .* Writing thumbnail to: (.*)/i', $statusUpdate, $out)) { 
+		error_log("thumbnail: " . $out[1],0);
         }
 	if (preg_match('/\[download\]\s*(.*)\%.*ETA /i', $statusUpdate, $out)) { 
 		error_log("ETA Update: ". $out[1] ,0);
