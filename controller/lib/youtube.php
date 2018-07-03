@@ -173,13 +173,8 @@ class YouTube
 	if($this->process->isRunning())
 	{
 		$this->YTDLOutput = $this->process->getContents();
-		error_log("HERE" . $this->YTDLOutput);
 	}
 	
-
-#	error_log("YTDL Output:". $Output, 0);
-#	$ytdl=explode("\n", $Output);
-#	foreach ($ytdl as $y) { error_log ("YTDL Output:". $y."\n"); }
 	
 	$this->syncDownloadsFolder();
 	error_log("HERE --> Scan done", 0);
