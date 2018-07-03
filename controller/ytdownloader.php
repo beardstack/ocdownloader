@@ -112,8 +112,6 @@ class YTDownloader extends Controller
                     $YouTube->SetForceIPv4(false);
                 }
 
-#		error_log('HERE --> '. $this->DownloadsFolder, 0);
-
 		if (!is_null($this->AbsoluteDownloadsFolder)) {
 		    $YouTube->SetDirectory($this->AbsoluteDownloadsFolder);
 		} else { error_log("AbsoluteDownloadsFolder is null", 0); }
@@ -156,9 +154,9 @@ class YTDownloader extends Controller
                 }
 
                 // If target file exists, create a new one
-                if (\OC\Files\Filesystem::file_exists($this->DownloadsFolder . '/' . $DL['FILENAME'])) {
+/*                 if (\OC\Files\Filesystem::file_exists($this->DownloadsFolder . '/' . $DL['FILENAME'])) {
                     $DL['FILENAME'] = time() . '_' . $DL['FILENAME'];
-                }
+                } 
 
                 // Create the target file if the downloader is ARIA2
                 if ($this->WhichDownloader == 0) {
@@ -184,7 +182,7 @@ class YTDownloader extends Controller
                 $AddURI =($this->WhichDownloader == 0
                 ?Aria2::addUri(array($DL['URL']), array('Params' => $OPTIONS))
                 :CURL::addUri($DL['URL'], $OPTIONS));
-
+*/
                 if (isset($AddURI['result']) && !is_null($AddURI['result'])) {
                     $SQL = 'INSERT INTO `*PREFIX*ocdownloader_queue`
                     (`UID`, `GID`, `FILENAME`, `PROTOCOL`, `STATUS`, `TIMESTAMP`)
@@ -207,7 +205,7 @@ class YTDownloader extends Controller
                     ));
 
                     sleep(1);
-                    $Status = Aria2::tellStatus($AddURI['result']);
+/*                     $Status = Aria2::tellStatus($AddURI['result']);
 
                     $Progress = 0;
                     if ($Status['result']['totalLength'] > 0) {
@@ -218,7 +216,7 @@ class YTDownloader extends Controller
                         $Status['result']['completedLength'],
                         $Status['result']['totalLength'],
                         $Progress
-                    );
+                    ); */
 
                     return new JSONResponse(array(
                           'ERROR' => false,
