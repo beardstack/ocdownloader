@@ -56,7 +56,7 @@ class RunYTDL {
 		error_log("thumbnail",0);
         }
 	if (preg_match('/\[download\]\s*(.*)\%.*ETA /i', $statusUpdate, $out)) { 
-		error_log("ETA Update: ". $out ,0);
+		error_log("ETA Update: ". $out[1] ,0);
         }
 	if (preg_match('/\[ffmpeg\] Destination:/i', $statusUpdate)) { 
 		error_log("Post-Processing",0);
