@@ -44,7 +44,7 @@ class DownloadDetails {
 			umask(0);
       			posix_mkfifo($this->pipe,0600);
 		}
-		$this->pipehandle = fopen($this->pipe,"w"); 
+		$this->pipehandle = fopen($this->pipe,"r+"); 
 	}
 	public function destroypipe(){
 		unlink($this->pipe); //delete pipe
