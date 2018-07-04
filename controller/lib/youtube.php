@@ -23,10 +23,35 @@ class DownloadDetails {
                 'size' => '',
                 'downloadspeed' => ''
             );
+	private $pipe;
+	private $pipehandle;
 
 	
 	function __construct()	{
 		$this->GID = uniqid();
+		$this->createpipe();
+	}
+	
+	function __destruct() {
+		$this->destroypipe();
+	}
+	
+	private function createpipe(){
+		#create an output pipe in /tmp/$GID
+		$this->pipe = "/tmp/" . $this->GID;
+		
+		if(!file_exists($this->pipe)) {
+			umask(0);
+      			posix_mkfifo($this->pipe,0600);
+		}
+		$this->pipehandle = fopen($this->pipe,"w"); 
+	}
+	private function destroypipe(){
+		unlink($this->pipe); //delete pipe
+	}
+	
+	public function writetopipe($a){
+		fwrite($this->pipehandle,$a);  //block until there is a reader
 	}
 	
 
@@ -67,6 +92,7 @@ class DownloadDetails {
 		
 		return json_encode($stat);
 	}
+	private function 
 	
 	
 }
@@ -125,6 +151,8 @@ class RunYTDL {
 		}
 		$this->downloader->setfilename($path_parts['filename']);
 		error_log($this->downloader->getJSONstatus() ,0);
+		
+		$this->downloader->writetopipe($this->downloader->getJSONstatus());
 
         }
 	#extract completion updates
@@ -135,15 +163,18 @@ class RunYTDL {
 		$this->downloader->updateprogress($out[1], $out[3], $out[2] );
 		$this->downloader->updatestatus('Downloading');
 		error_log($this->downloader->getJSONstatus() ,0);
+		$this->downloader->writetopipe($this->downloader->getJSONstatus());
         }
 	#Status = post-processing
 	elseif (preg_match('/\[ffmpeg\] Destination:/i', $in)) { 
 		$this->downloader->updatestatus('Post-Processing');
 		error_log($this->downloader->getJSONstatus() ,0);
+		$this->downloader->writetopipe($this->downloader->getJSONstatus());
         }
 	#Status = DONE increment arrayindex
 	elseif (preg_match('/\[ffmpeg\] Adding thumbnail/i', $in)) { 
 		$this->downloader->updatestatus('Completed');
+		$this->downloader->writetopipe($this->downloader->getJSONstatus());
 		error_log($this->downloader->getJSONstatus() ,0);
 		$this->arrayindex++;
         }
