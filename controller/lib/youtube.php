@@ -55,7 +55,7 @@ class DownloadDetails {
 		$this->$statusArray['downloadspeed'] = $b;
 		$this->$statusArray['size'] = $c;
 	}
-	public function getJSONstatus (){
+	public function getJSONstatus(){
 		
 		$stat->GID = $this->getGID();
 		$stat->filename = $this->getfilename();
@@ -125,6 +125,7 @@ class RunYTDL {
 		#$this->downloadstatusArray[$this->arrayindex]->setplaylist_name($this->temp);
 		#$this->downloadstatusArray[$this->arrayindex]->setfilename($path_parts['filename']);
 		$this->downloader->setfilename($path_parts['filename']);
+		error_log($this->downloader->getJSONstatus() ,0);
 
         }
 	#extract completion updates
@@ -136,7 +137,7 @@ class RunYTDL {
 		#$this->downloadstatusArray[$this->arrayindex]->updatestatus('Downloading');
 		$this->downloader->updateprogress($out[1], $out[3], $out[2] );
 		$this->downloader->updatestatus('Downloading');
-		
+		error_log($this->downloader->getJSONstatus() ,0);
 		
 
         }
@@ -145,12 +146,14 @@ class RunYTDL {
 		error_log("Post-Processing" ,0);
 		#$this->downloadstatusArray[$this->arrayindex]->updatestatus('Post-Processing');
 		$this->downloader->updatestatus('Post-Processing');
+		error_log($this->downloader->getJSONstatus() ,0);
         }
 	#Status = DONE increment arrayindex
 	elseif (preg_match('/\[ffmpeg\] Adding thumbnail/i', $in)) { 
 		error_log("Finished" ,0);
 		#$this->downloadstatusArray[$this->arrayindex]->updatestatus('Post-Processing');
 		$this->downloader->updatestatus('Completed');
+		error_log($this->downloader->getJSONstatus() ,0);
 		$this->arrayindex++;
         }
 
