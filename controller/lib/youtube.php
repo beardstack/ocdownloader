@@ -102,7 +102,6 @@ class RunYTDL {
 		$line = fgets($this->pipes[1]);
 		$this->parse($line);
 	}
-	return '';	
     }
 
     private function parse($in)
@@ -122,11 +121,8 @@ class RunYTDL {
 		$this->downloader = $this->downloadstatusArray[$this->arrayindex];
 		
 		if (!is_null($this->temp)) {
-			#$this->downloadstatusArray[$this->arrayindex]->setplaylist_name($this->temp);
 			$this->downloader->setplaylist_name($this->temp);
 		}
-		#$this->downloadstatusArray[$this->arrayindex]->setplaylist_name($this->temp);
-		#$this->downloadstatusArray[$this->arrayindex]->setfilename($path_parts['filename']);
 		$this->downloader->setfilename($path_parts['filename']);
 		error_log($this->downloader->getJSONstatus() ,0);
 
@@ -136,25 +132,17 @@ class RunYTDL {
 		#$out[1] = %complete, $out[2] = size, #$out[3] = speed
 		#error_log("%complete: ". $out[1] . " size: ". $out[2] . " speed: ". $out[3]   ,0);
 		
-		#$this->downloadstatusArray[$this->arrayindex]->updateprogress($out[1], $out[3], $out[2] );
-		#$this->downloadstatusArray[$this->arrayindex]->updatestatus('Downloading');
 		$this->downloader->updateprogress($out[1], $out[3], $out[2] );
 		$this->downloader->updatestatus('Downloading');
 		error_log($this->downloader->getJSONstatus() ,0);
-		
-
         }
 	#Status = post-processing
 	elseif (preg_match('/\[ffmpeg\] Destination:/i', $in)) { 
-		error_log("Post-Processing" ,0);
-		#$this->downloadstatusArray[$this->arrayindex]->updatestatus('Post-Processing');
 		$this->downloader->updatestatus('Post-Processing');
 		error_log($this->downloader->getJSONstatus() ,0);
         }
 	#Status = DONE increment arrayindex
 	elseif (preg_match('/\[ffmpeg\] Adding thumbnail/i', $in)) { 
-		error_log("Finished" ,0);
-		#$this->downloadstatusArray[$this->arrayindex]->updatestatus('Post-Processing');
 		$this->downloader->updatestatus('Completed');
 		error_log($this->downloader->getJSONstatus() ,0);
 		$this->arrayindex++;
