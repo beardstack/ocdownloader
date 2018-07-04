@@ -92,7 +92,6 @@ class DownloadDetails {
 		
 		return json_encode($stat);
 	}
-	private function 
 	
 	
 }
