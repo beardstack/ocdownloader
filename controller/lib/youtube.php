@@ -56,7 +56,7 @@ class DownloadDetails {
 		$this->statusArray['size'] = $c;
 	}
 	public function getstatusArray(){
-		return this->statusArray;
+		return $this->statusArray;
 	}
 	public function getJSONstatus(){
 		
