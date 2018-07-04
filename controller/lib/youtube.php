@@ -180,7 +180,7 @@ class RunYTDL {
 		$this->downloader->updatestatus('Completed');
 		$this->downloader->writetopipe($this->downloader->getJSONstatus());
 		error_log($this->downloader->getJSONstatus() ,0);
-		$this->downloader->destroypipe();
+		#$this->downloader->destroypipe();
 		$this->arrayindex++;
         }
 
