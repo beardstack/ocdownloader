@@ -15,7 +15,7 @@ namespace OCA\ocDownloader\Controller\Lib;
 class DownloadDetails {
 	
 	private $GID = NULL;
-	private $playlist_name;
+	private $playlist_name = '';
 	private $filename;
         private $statusArray = array(
                 'status' => 'waiting',
@@ -29,6 +29,7 @@ class DownloadDetails {
 		$this->GID = uniqid();
 	}
 	
+
 	public function setplaylist_name($a){
 		$this->playlist_name = $a;
 	}
@@ -36,6 +37,9 @@ class DownloadDetails {
 		$this->filename = $a;
 	}
 	
+	public function getGID(){
+		return $this->GID;
+	}
 	public function getplaylist_name() {
 		return $this->playlist_name;
 	}
@@ -51,6 +55,16 @@ class DownloadDetails {
 		$this->$statusArray['downloadspeed'] = $b;
 		$this->$statusArray['size'] = $c;
 	}
+	public function getJSONstatus (){
+		
+		$stat->GID = $this->getGID();
+		$stat->filename = $this->getfilename();
+		$stat->playlist = $this->getplaylist_name();
+		$stat->statusArray = $this->statusArray;
+		
+		return json_encode($stat);
+	}
+	
 	
 }
 
