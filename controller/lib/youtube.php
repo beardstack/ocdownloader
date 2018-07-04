@@ -55,12 +55,15 @@ class DownloadDetails {
 		$this->$statusArray['downloadspeed'] = $b;
 		$this->$statusArray['size'] = $c;
 	}
+	public function getstatusArray(){
+		return this->$statusArray;
+	}
 	public function getJSONstatus(){
 		
 		$stat->GID = $this->getGID();
 		$stat->filename = $this->getfilename();
 		$stat->playlist = $this->getplaylist_name();
-		$stat->statusArray = $this->statusArray;
+		$stat->statusArray = $this->getstatusArray();
 		
 		return json_encode($stat);
 	}
