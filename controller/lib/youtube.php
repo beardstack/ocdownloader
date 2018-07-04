@@ -46,7 +46,7 @@ class DownloadDetails {
 		}
 		$this->pipehandle = fopen($this->pipe,"w"); 
 	}
-	private function destroypipe(){
+	public function destroypipe(){
 		unlink($this->pipe); //delete pipe
 	}
 	
@@ -175,6 +175,7 @@ class RunYTDL {
 		$this->downloader->updatestatus('Completed');
 		$this->downloader->writetopipe($this->downloader->getJSONstatus());
 		error_log($this->downloader->getJSONstatus() ,0);
+		$this->downloader->destroypipe();
 		$this->arrayindex++;
         }
 
