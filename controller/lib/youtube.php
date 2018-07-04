@@ -48,15 +48,15 @@ class DownloadDetails {
 	}
 	
 	public function updatestatus($a) {
-		$this->$statusArray['status'] = $a;
+		$this->statusArray['status'] = $a;
 	}
 	public function updateprogress($a, $b, $c ) {
-		$this->$statusArray['completed'] = $a;
-		$this->$statusArray['downloadspeed'] = $b;
-		$this->$statusArray['size'] = $c;
+		$this->statusArray['completed'] = $a;
+		$this->statusArray['downloadspeed'] = $b;
+		$this->statusArray['size'] = $c;
 	}
 	public function getstatusArray(){
-		return this->$statusArray;
+		return this->statusArray;
 	}
 	public function getJSONstatus(){
 		
