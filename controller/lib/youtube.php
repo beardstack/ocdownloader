@@ -38,7 +38,8 @@ class DownloadDetails {
 	
 	private function createpipe(){
 		#create an output pipe in /tmp/$GID
-		$this->pipe = "/tmp/" . $this->GID;
+		#$this->pipe = "/tmp/" . $this->GID;
+		$this->pipe = "/tmp/pipe" ;
 		
 		if(!file_exists($this->pipe)) {
 			umask(0);
