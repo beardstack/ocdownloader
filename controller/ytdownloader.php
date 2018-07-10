@@ -166,7 +166,10 @@ class YTDownloader extends Controller
                     );
 */
                 }
-
+return new JSONResponse(array(
+                              'ERROR' => true,
+                              'MESSAGE' =>(string)$this->L10N->t('Unable to retrieve true YouTube video URL')
+                        ));
 
                 // If target file exists, create a new one
 /*                 if (\OC\Files\Filesystem::file_exists($this->DownloadsFolder . '/' . $DL['FILENAME'])) {
