@@ -353,8 +353,6 @@ class YouTube
 	       
 	$this->process = new RunYTDL($cmd, $this->CurrentUID, "YT_Audio" );
 	    
-	$pid = pcntl_fork();
-
 	if($this->process->isRunning())
 	{
 		
