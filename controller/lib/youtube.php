@@ -168,8 +168,8 @@ class RunYTDL {
 		
 		$this->values['FILENAME'] = $path_parts['filename'];
 		$this->values['GID'] = $this->downloader->getGID();
-		$this->db = new db_queue();
-		$this->db->add($this->values);
+		#$this->db = new db_queue();
+		#$this->db->add($this->values);
 	
 		$this->downloader->writetopipe($this->downloader->getJSONstatus());
 		
@@ -199,8 +199,8 @@ class RunYTDL {
 		$this->downloader->writetopipe($this->downloader->getJSONstatus());
 		
 		#update database
-		$this->values['STATUS'] = 0; //COMPLETE
-		$this->db->update($this->values);
+		#$this->values['STATUS'] = 0; //COMPLETE
+		#$this->db->update($this->values);
 		
 		error_log($this->downloader->getJSONstatus() ,0);
 		#$this->downloader->destroypipe();
