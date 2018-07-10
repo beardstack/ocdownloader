@@ -1,12 +1,6 @@
 <?php
 /**
- * ownCloud - ocDownloader
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the LICENSE file.
- *
- * @author Xavier Beurois <www.sgc-univ.net>
- * @copyright Xavier Beurois 2015
+ * NextCloud - ncDownloader
  */
 
 namespace OCA\ocDownloader\Controller\Lib;
@@ -342,7 +336,6 @@ class YouTube
         if (!is_null($this->ProxyAddress) && $this->ProxyPort > 0 && $this->ProxyPort <= 65536) {
             $Proxy = ' --proxy ' . rtrim($this->ProxyAddress, '/') . ':' . $this->ProxyPort;
         }
-	error_log("HERE --> EXECUTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", 0);
 
         //youtube multibyte support
         putenv('LANG=en_US.UTF-8');
@@ -350,6 +343,8 @@ class YouTube
         $cmd = $this->YTDLBinary.' --newline -i \''.$this->URL.'\' ' .'-o ' . $this->Directory .'/\'%(title)s.%(ext)s\'';
 	
 	if ($this->process == null) { 
+			error_log("HERE --> EXECUTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", 0);
+
 	$this->process = new RunYTDL($cmd, $this->CurrentUID, "YT_Audio" );
 	 $this->YTDLOutput = $this->process->queue();
 	}
