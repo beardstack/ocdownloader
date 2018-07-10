@@ -355,6 +355,7 @@ class YouTube
 
 	if($this->process->isRunning())
 	{
+		$pid = pcntl_fork();
 		$this->YTDLOutput = $this->process->queue();
 	}
 	
