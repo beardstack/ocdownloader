@@ -141,7 +141,7 @@ class YTDownloader extends Controller
 
 			
 			return new JSONResponse(array(
-                              'ERROR' => false,
+                              'ERROR' => true,
                               'MESSAGE' =>(string)$this->L10N->t('OK')
                         ));
 			
