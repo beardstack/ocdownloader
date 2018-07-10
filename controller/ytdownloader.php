@@ -129,12 +129,12 @@ class YTDownloader extends Controller
 			
 			$pid = pcntl_fork();
                         $VideoData = $YouTube->download(true);
-			
+			sleep(2);
 			while(pcntl_waitpid(0, $status) != -1);	  
 			
-return new JSONResponse(array(
+			return new JSONResponse(array(
                               'ERROR' => true,
-                              'MESSAGE' =>(string)$this->L10N->t('Unable to retrieve true YouTube video URL')
+                              'MESSAGE' =>(string)$this->L10N->t('OK')
                         ));
 			
                    # $VideoData = $YouTube->download(true);
