@@ -99,6 +99,7 @@ class YTDownloader extends Controller
         if (isset($_POST['FILE']) && strlen($_POST['FILE']) > 0
               && Tools::checkURL($_POST['FILE']) && isset($_POST['OPTIONS'])) {
             try {
+		    
                 if (!$this->AllowProtocolYT && !\OC_User::isAdminUser($this->CurrentUID)) {
                     throw new \Exception((string)$this->L10N->t('You are not allowed to use the YouTube protocol'));
                 }
@@ -110,18 +111,18 @@ class YTDownloader extends Controller
                 }
 
                 if (isset($_POST['OPTIONS']['YTForceIPv4']) && strcmp($_POST['OPTIONS']['YTForceIPv4'], 'false') == 0) {
-                    $YouTube->SetForceIPv4(false);
+			$YouTube->SetForceIPv4(false);
                 }
 
-				if (!is_null($this->AbsoluteDownloadsFolder)) {
-					$YouTube->SetDirectory($this->AbsoluteDownloadsFolder);
-				} else { error_log("AbsoluteDownloadsFolder is null", 0); }
+		if (!is_null($this->AbsoluteDownloadsFolder)) {
+			$YouTube->SetDirectory($this->AbsoluteDownloadsFolder);
+		} else { error_log("AbsoluteDownloadsFolder is null", 0); }
 
-				if (!is_null($this->DownloadsFolder)) {
-					$YouTube->setDownloadsFolder($this->DownloadsFolder);
-				} else { error_log("DownloadsFolder is null", 0); }
+		if (!is_null($this->DownloadsFolder)) {
+			$YouTube->setDownloadsFolder($this->DownloadsFolder);
+		} else { error_log("DownloadsFolder is null", 0); }
 
-				$YouTube->setCurrentUID($this->CurrentUID);
+		$YouTube->setCurrentUID($this->CurrentUID);
 
                 // Extract Audio YES
                 if (isset($_POST['OPTIONS']['YTExtractAudio'])
@@ -140,7 +141,7 @@ class YTDownloader extends Controller
 
 			
 			return new JSONResponse(array(
-                              'ERROR' => true,
+                              'ERROR' => false,
                               'MESSAGE' =>(string)$this->L10N->t('OK')
                         ));
 			
