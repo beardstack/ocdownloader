@@ -125,8 +125,24 @@ class YTDownloader extends Controller
                 // Extract Audio YES
                 if (isset($_POST['OPTIONS']['YTExtractAudio'])
                 && strcmp($_POST['OPTIONS']['YTExtractAudio'], 'true') == 0) {
-			# $pid = pcntl_fork();
-                    $VideoData = $YouTube->download(true);
+			$pid = pcntl_fork();
+			  if ($pid == -1) {
+			    	return new JSONResponse(
+					array(
+					'ERROR' => true,
+					'MESSAGE' =>'Error Forking'
+					));
+			  }
+			  else if ($pid == 0) {
+			    $YouTube->download(true);
+			    	return new JSONResponse(
+					array(
+					'ERROR' => true,
+					'MESSAGE' =>'Forked'
+					));
+			  }
+			
+                   # $VideoData = $YouTube->download(true);
 /*                    if (!isset($VideoData['AUDIO']) || !isset($VideoData['FULLNAME'])) {
                         return new JSONResponse(array(
                               'ERROR' => true,
@@ -155,11 +171,7 @@ class YTDownloader extends Controller
                     );
 */
                 }
-		return new JSONResponse(
-                	array(
-                    	'ERROR' => true,
-                    	'MESSAGE' =>'This is not meant to pass'
-                	));
+
 
                 // If target file exists, create a new one
 /*                 if (\OC\Files\Filesystem::file_exists($this->DownloadsFolder . '/' . $DL['FILENAME'])) {
