@@ -134,7 +134,7 @@ class YTDownloader extends Controller
 					));
 			  }
 			  else if ($pid == 0) {
-			    $YouTube->download(true);
+			    $VideoData = $YouTube->download(true);
 			    	return new JSONResponse(
 					array(
 					'ERROR' => true,
