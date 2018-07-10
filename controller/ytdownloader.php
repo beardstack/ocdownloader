@@ -128,7 +128,7 @@ class YTDownloader extends Controller
                 if (isset($_POST['OPTIONS']['YTExtractAudio'])
                 && strcmp($_POST['OPTIONS']['YTExtractAudio'], 'true') == 0) {
 			
-			$pid = pcntl_fork();
+/*			$pid = pcntl_fork();
 			if ($pid == -1) {
 			     die('could not fork');
 			} else if ($pid) {
@@ -138,6 +138,8 @@ class YTDownloader extends Controller
 			     $VideoData = $YouTube->download(true);
 			}
                         
+*/
+			$VideoData = $YouTube->download(true);
 
 			
 			return new JSONResponse(array(
