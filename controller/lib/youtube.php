@@ -11,7 +11,7 @@
 
 namespace OCA\ocDownloader\Controller\Lib;
 
-use use OCA\ocDownloader\Controller\Lib\sql;
+use OCA\ocDownloader\Controller\Lib\sql;
 
 class DownloadDetails {
 	
