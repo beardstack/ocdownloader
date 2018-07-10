@@ -244,8 +244,8 @@ class RunYTDL {
 		$this->downloader->writetopipe($this->downloader->getJSONstatus());
 		
 		#update database
-		#$this->values['STATUS'] = 0; //COMPLETE
-		#$this->db->update($this->values);
+		$this->values['STATUS'] = 0; //COMPLETE
+		$this->db->update($this->values);
 		
 		error_log($this->downloader->getJSONstatus() ,0);
 		#$this->downloader->destroypipe();
