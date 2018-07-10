@@ -128,15 +128,12 @@ class YTDownloader extends Controller
 			$pid = pcntl_fork();
 			#$VideoData = $YouTube->download(true);
 			  if ($pid == -1) {
+				  error_log("HERE --> FORKING ISSUE",0);
 
 			  }
 			  else if ($pid == 0) {
 			    
-			    	return new JSONResponse(
-					array(
-					'ERROR' => true,
-					'MESSAGE' =>'Forked'
-					));
+			    error_log("HERE --> FORKED",0);
 			  }
 			
                    # $VideoData = $YouTube->download(true);
