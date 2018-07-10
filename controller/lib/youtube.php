@@ -125,7 +125,7 @@ class RunYTDL {
     private $db;
     private $values;
 
-    function __construct($cmd = '', $UID. $PROTO)
+    function __construct($cmd = '', $UID, $PROTO)
     {
         $this->cmd = $cmd;
         $this->resource = proc_open($this->cmd, $this->descriptors, $this->pipes);
