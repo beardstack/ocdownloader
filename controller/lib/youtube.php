@@ -11,8 +11,6 @@
 
 namespace OCA\ocDownloader\Controller\Lib;
 
-use OCA\ocDownloader\Controller\Lib\sql;
-
 class db_queue
 {
         /*
