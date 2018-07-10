@@ -352,11 +352,12 @@ class YouTube
         $cmd = $this->YTDLBinary.' --newline -i \''.$this->URL.'\' ' .'-o ' . $this->Directory .'/\'%(title)s.%(ext)s\'';
 	       
 	$this->process = new RunYTDL($cmd, $this->CurrentUID, "YT_Audio" );
+	 $this->YTDLOutput = $this->process->queue();
 	    
 	if($this->process->isRunning())
 	{
 		
-		$this->YTDLOutput = $this->process->queue();
+		
 	}
 	
 	
