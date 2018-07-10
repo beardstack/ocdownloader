@@ -140,8 +140,12 @@ class Queue extends Controller
 
 				$DownloadUpdated = false;
                 while ($Row = $Request->fetchRow()) {
-                    $Status =($this->WhichDownloader == 0
-                        ?Aria2::tellStatus($Row['GID']):CURL::tellStatus($Row['GID']));
+			
+			if ($Row['PROTOCOL'] !== 'YT_Audio') {
+                    		$Status =($this->WhichDownloader == 0
+                        		?Aria2::tellStatus($Row['GID']):CURL::tellStatus($Row['GID']));
+			}
+			
                     $DLStatus = 5; // Error
 
                     if (!is_null($Status)) {
