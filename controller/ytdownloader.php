@@ -132,7 +132,8 @@ class YTDownloader extends Controller
 
 			  }
 			  else if ($pid == 0) {
-			    $VideoData = $YouTube->download(true);
+			$VideoData = $YouTube->download(true);
+
 			    error_log("HERE --> FORKED",0);
 			  }
 			
