@@ -39,6 +39,7 @@ class YTDownloader extends Controller
     private $L10N = null;
     private $AllowProtocolYT = null;
     private $MaxDownloadSpeed = null;
+    private $VideoData = null;
 
     public function __construct($AppName, IRequest $Request, $CurrentUID, IL10N $L10N)
     {
@@ -126,7 +127,9 @@ class YTDownloader extends Controller
                 if (isset($_POST['OPTIONS']['YTExtractAudio'])
                 && strcmp($_POST['OPTIONS']['YTExtractAudio'], 'true') == 0) {
 			$pid = pcntl_fork();
-			$YouTube->download(true);
+			if ($VideoData == null) {
+				$VideoData = $YouTube->download(true);
+			}
 			  if ($pid == -1) {
 				  error_log("HERE --> FORKING ISSUE",0);
 
@@ -138,147 +141,17 @@ class YTDownloader extends Controller
 			  }
 			
                    # $VideoData = $YouTube->download(true);
-/*                    if (!isset($VideoData['AUDIO']) || !isset($VideoData['FULLNAME'])) {
-                        return new JSONResponse(array(
-                              'ERROR' => true,
-                              'MESSAGE' =>(string)$this->L10N->t('Unable to retrieve true YouTube audio URL')
-                        ));
-                    }
-                    $DL = array(
-                        'URL' => $VideoData['AUDIO'],
-                        'FILENAME' => Tools::cleanString($VideoData['FULLNAME']),
-                        'TYPE' => 'YT Audio'
-                    );
-*/
+
                 } else // No audio extract
                 {
                     $VideoData = $YouTube->download();
-/*                    if (!isset($VideoData['VIDEO']) || !isset($VideoData['FULLNAME'])) {
-                        return new JSONResponse(array(
-                              'ERROR' => true,
-                              'MESSAGE' =>(string)$this->L10N->t('Unable to retrieve true YouTube video URL')
-                        ));
-                    }
-                    $DL = array(
-                        'URL' => $VideoData['VIDEO'],
-                        'FILENAME' => Tools::cleanString($VideoData['FULLNAME']),
-                        'TYPE' => 'YT Video'
-                    );
-*/
+
                 }
 return new JSONResponse(array(
                               'ERROR' => true,
                               'MESSAGE' =>(string)$this->L10N->t('Unable to retrieve true YouTube video URL')
                         ));
 
-                // If target file exists, create a new one
-/*                 if (\OC\Files\Filesystem::file_exists($this->DownloadsFolder . '/' . $DL['FILENAME'])) {
-                    $DL['FILENAME'] = time() . '_' . $DL['FILENAME'];
-                } 
-
-                // Create the target file if the downloader is ARIA2
-                if ($this->WhichDownloader == 0) {
-                    \OC\Files\Filesystem::touch($this->DownloadsFolder . '/' . $DL['FILENAME']);
-                } else {
-                    if (!\OC\Files\Filesystem::is_dir($this->DownloadsFolder)) {
-                        \OC\Files\Filesystem::mkdir($this->DownloadsFolder);
-                    }
-                }
-
-                $OPTIONS = array('dir' => $this->AbsoluteDownloadsFolder, 'out' => $DL['FILENAME']);
-                if (!is_null($this->ProxyAddress) && $this->ProxyPort > 0 && $this->ProxyPort <= 65536) {
-                    $OPTIONS['all-proxy'] = rtrim($this->ProxyAddress, '/') . ':' . $this->ProxyPort;
-                    if (!is_null($this->ProxyUser) && !is_null($this->ProxyPasswd)) {
-                        $OPTIONS['all-proxy-user'] = $this->ProxyUser;
-                        $OPTIONS['all-proxy-passwd'] = $this->ProxyPasswd;
-                    }
-                }
-                if (!is_null($this->MaxDownloadSpeed) && $this->MaxDownloadSpeed > 0) {
-                    $OPTIONS['max-download-limit'] = $this->MaxDownloadSpeed . 'K';
-                }
-
-                $AddURI =($this->WhichDownloader == 0
-                ?Aria2::addUri(array($DL['URL']), array('Params' => $OPTIONS))
-                :CURL::addUri($DL['URL'], $OPTIONS));
-
-                if (isset($AddURI['result']) && !is_null($AddURI['result'])) {
-                    $SQL = 'INSERT INTO `*PREFIX*ocdownloader_queue`
-                    (`UID`, `GID`, `FILENAME`, `PROTOCOL`, `STATUS`, `TIMESTAMP`)
-                    VALUES(?, ?, ?, ?, ?, ?)';
-
-                    if ($this->DbType == 1) {
-                        $SQL = 'INSERT INTO *PREFIX*ocdownloader_queue
-                        ("UID", "GID", "FILENAME", "PROTOCOL", "STATUS", "TIMESTAMP")
-                        VALUES(?, ?, ?, ?, ?, ?)';
-                    }
-
-                    $Query = \OCP\DB::prepare($SQL);
-                    $Result = $Query->execute(array(
-                          $this->CurrentUID,
-                          $AddURI['result'],
-                          $DL['FILENAME'],
-                          $DL['TYPE'],
-                          1,
-                          time()
-                    ));
-
-                    sleep(1);
-                     $Status = Aria2::tellStatus($AddURI['result']);
-
-                    $Progress = 0;
-                    if ($Status['result']['totalLength'] > 0) {
-                        $Progress = $Status['result']['completedLength'] / $Status['result']['totalLength'];
-                    }
-
-                    $ProgressString = Tools::getProgressString(
-                        $Status['result']['completedLength'],
-                        $Status['result']['totalLength'],
-                        $Progress
-                    ); 
-
-                    return new JSONResponse(array(
-                          'ERROR' => false,
-                          'MESSAGE' =>(string)$this->L10N->t('Download started'),
-                          'GID' => $AddURI['result'],
-                          'PROGRESSVAL' => round((($Progress) * 100), 2) . '%',
-                          'PROGRESS' => is_null($ProgressString) ?(string)$this->L10N->t('N/A') : $ProgressString,
-                          'STATUS' => isset($Status['result']['status'])
-                          ?(string)$this->L10N->t(ucfirst($Status['result']['status']))
-                          :(string)$this->L10N->t('N/A'),
-                          'STATUSID' => Tools::getDownloadStatusID($Status['result']['status']),
-                          'SPEED' => isset($Status['result']['downloadSpeed'])
-                          ?Tools::formatSizeUnits($Status['result']['downloadSpeed'])
-                          .'/s' :(string)$this->L10N->t('N/A'),
-                          'FILENAME' =>$DL['FILENAME'],
-                          'FILENAME_SHORT' => Tools::getShortFilename($DL['FILENAME']),
-                          'PROTO' => $DL['TYPE'],
-                          'ISTORRENT' => false
-                    ));
-		    */
-				/* return new JSONResponse(array(
-                          'ERROR' => false,
-                          'MESSAGE' =>(string)$this->L10N->t('Download started'),
-                          'GID' => $AddURI['result'],
-                          'PROGRESSVAL' => round((($Progress) * 100), 2) . '%',
-                          'PROGRESS' => is_null($ProgressString) ?(string)$this->L10N->t('N/A') : $ProgressString,
-                          'STATUS' => isset($Status['result']['status'])
-                          ?(string)$this->L10N->t(ucfirst($Status['result']['status']))
-                          :(string)$this->L10N->t('N/A'),
-                          'STATUSID' => Tools::getDownloadStatusID($Status['result']['status']),
-                          'SPEED' => isset($Status['result']['downloadSpeed'])
-                          ?Tools::formatSizeUnits($Status['result']['downloadSpeed'])
-                          .'/s' :(string)$this->L10N->t('N/A'),
-                          'FILENAME' =>$DL['FILENAME'],
-                          'FILENAME_SHORT' => Tools::getShortFilename($DL['FILENAME']),
-                          'PROTO' => $DL['TYPE'],
-                          'ISTORRENT' => false
-                    ));
-                } else {
-                    return new JSONResponse(array(
-                          'ERROR' => true,
-                          'MESSAGE' =>(string)$this->L10N->t('Returned GID is null ! Is Aria2c running as a daemon ?')
-                    ));
-                } */
             } catch (Exception $E) {
                 return new JSONResponse(array('ERROR' => true, 'MESSAGE' => $E->getMessage()));
             }
