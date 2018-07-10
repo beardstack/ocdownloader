@@ -342,7 +342,7 @@ class YouTube
         if (!is_null($this->ProxyAddress) && $this->ProxyPort > 0 && $this->ProxyPort <= 65536) {
             $Proxy = ' --proxy ' . rtrim($this->ProxyAddress, '/') . ':' . $this->ProxyPort;
         }
-
+	error_log("HERE --> EXECUTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", 0);
 
         //youtube multibyte support
         putenv('LANG=en_US.UTF-8');
