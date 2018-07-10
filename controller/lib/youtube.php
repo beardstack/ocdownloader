@@ -11,6 +11,7 @@
 
 namespace OCA\ocDownloader\Controller\Lib;
 
+use use OCA\ocDownloader\Controller\Lib\sql;
 
 class DownloadDetails {
 	
@@ -25,11 +26,15 @@ class DownloadDetails {
             );
 	private $pipe;
 	private $pipehandle;
+	private $UID;
+	private $PROTOCOL;
 
 	
-	function __construct()	{
+	function __construct($UID,$PROTOCOL )	{
 		$this->GID = uniqid();
 		$this->createpipe();
+		$this->UID = $UID;
+		$this->PROTOCOL = $PROTOCOL;
 	}
 	
 	function __destruct() {
@@ -116,11 +121,16 @@ class RunYTDL {
     private $arrayindex = 0; 
     private $temp = ''; #holds playlist data
     private $downloader;
+	
+    private $db;
+    private $values;
 
-    function __construct($cmd = '')
+    function __construct($cmd = '', $UID. $PROTO)
     {
         $this->cmd = $cmd;
         $this->resource = proc_open($this->cmd, $this->descriptors, $this->pipes);
+	$this->values['UID'] = $UID;
+	$this->values['PROTOCOL'] = $PROTO;
 	    
     }
    
@@ -147,7 +157,7 @@ class RunYTDL {
 		#error_log("File: " . $path_parts['filename'] ,0);
 		
 		#create a new download stat object
-		$this->downloadstatusArray[$this->arrayindex] = new DownloadDetails();
+		$this->downloadstatusArray[$this->arrayindex] = new DownloadDetails($this->UID, $this->PROTOCOL);
 		$this->downloader = $this->downloadstatusArray[$this->arrayindex];
 		
 		if (!is_null($this->temp)) {
@@ -156,7 +166,15 @@ class RunYTDL {
 		$this->downloader->setfilename($path_parts['filename']);
 		error_log($this->downloader->getJSONstatus() ,0);
 		
+		$this->values['FILENAME'] = $path_parts['filename'];
+		$this->values['GID'] = $this->downloader->getGID();
+		$this->db = new db_queue();
+		$this->db->add($this->values)
+	
 		$this->downloader->writetopipe($this->downloader->getJSONstatus());
+		
+		
+		
 
         }
 	#extract completion updates
@@ -179,6 +197,11 @@ class RunYTDL {
 	elseif (preg_match('/\[ffmpeg\] Adding thumbnail/i', $in)) { 
 		$this->downloader->updatestatus('Completed');
 		$this->downloader->writetopipe($this->downloader->getJSONstatus());
+		
+		#update database
+		$this->values['STATUS'] = 0; //COMPLETE
+		$this->db->update($this->values);
+		
 		error_log($this->downloader->getJSONstatus() ,0);
 		#$this->downloader->destroypipe();
 		$this->arrayindex++;
@@ -282,8 +305,8 @@ class YouTube
         putenv('LANG=en_US.UTF-8');
 
         $cmd = $this->YTDLBinary.' --newline -i \''.$this->URL.'\' ' .'-o ' . $this->Directory .'/\'%(title)s.%(ext)s\'';
-
-	$this->process = new RunYTDL($cmd);
+	       
+	$this->process = new RunYTDL($cmd, $this->CurrentUID, "YT_Audio" );
 
 	if($this->process->isRunning())
 	{
