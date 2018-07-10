@@ -128,15 +128,14 @@ class YTDownloader extends Controller
                 && strcmp($_POST['OPTIONS']['YTExtractAudio'], 'true') == 0) {
 			
 			$pid = pcntl_fork();
-
-			  if ($pid == -1) {
-				  error_log("HERE --> FORKING ISSUE",0);
-			  }
-			  else if ($pid == 0) {
-			$VideoData = $YouTube->download(true);
-			error_log("HERE --> FORKED",0);
+                        $VideoData = $YouTube->download(true);
+			
 			while(pcntl_waitpid(0, $status) != -1);	  
-			  }
+			
+return new JSONResponse(array(
+                              'ERROR' => true,
+                              'MESSAGE' =>(string)$this->L10N->t('Unable to retrieve true YouTube video URL')
+                        ));
 			
                    # $VideoData = $YouTube->download(true);
 
@@ -145,10 +144,7 @@ class YTDownloader extends Controller
                     $VideoData = $YouTube->download();
 
                 }
-#return new JSONResponse(array(
-#                              'ERROR' => true,
-#                              'MESSAGE' =>(string)$this->L10N->t('Unable to retrieve true YouTube video URL')
-#                        ));
+
 
             } catch (Exception $E) {
                 return new JSONResponse(array('ERROR' => true, 'MESSAGE' => $E->getMessage()));
