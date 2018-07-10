@@ -128,9 +128,16 @@ class YTDownloader extends Controller
                 && strcmp($_POST['OPTIONS']['YTExtractAudio'], 'true') == 0) {
 			
 			$pid = pcntl_fork();
-                        $VideoData = $YouTube->download(true);
-			sleep(2);
-			while(pcntl_waitpid(0, $status) != -1);	  
+			if ($pid == -1) {
+			     die('could not fork');
+			} else if ($pid) {
+			     // we are the parent
+			     pcntl_wait($status); //Protect against Zombie children
+			} else {
+			     $VideoData = $YouTube->download(true);
+			}
+                        
+
 			
 			return new JSONResponse(array(
                               'ERROR' => true,
