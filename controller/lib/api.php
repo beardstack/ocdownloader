@@ -54,7 +54,9 @@ class API
                     if (!is_null(self::$ProxyAddress) && self::$ProxyPort > 0 && self::$ProxyPort <= 65536) {
                         $YouTube->setProxy(self::$ProxyAddress, self::$ProxyPort);
                     }
-                    
+                    error_log("HERE --> getVideoData!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", 0);
+			
+			
                     $VideoData = $YouTube->getVideoData();
                     if (!isset($VideoData['VIDEO']) || !isset($VideoData['FULLNAME'])) {
                         return array('ERROR' => true, 'MESSAGE' => 'UnabletoretrievetrueYouTubevideoURL');
