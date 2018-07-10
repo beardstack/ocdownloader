@@ -270,7 +270,7 @@ class RunYTDL {
     }
 }
 
-class YouTube
+class YouTube extends Thread
 {
     private $YTDLBinary = null;
     private $URL = null;
