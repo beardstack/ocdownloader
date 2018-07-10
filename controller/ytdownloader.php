@@ -125,6 +125,7 @@ class YTDownloader extends Controller
                 // Extract Audio YES
                 if (isset($_POST['OPTIONS']['YTExtractAudio'])
                 && strcmp($_POST['OPTIONS']['YTExtractAudio'], 'true') == 0) {
+			 $pid = pcntl_fork();
                     $VideoData = $YouTube->download(true);
 /*                    if (!isset($VideoData['AUDIO']) || !isset($VideoData['FULLNAME'])) {
                         return new JSONResponse(array(
