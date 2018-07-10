@@ -348,9 +348,12 @@ class YouTube
         putenv('LANG=en_US.UTF-8');
 
         $cmd = $this->YTDLBinary.' --newline -i \''.$this->URL.'\' ' .'-o ' . $this->Directory .'/\'%(title)s.%(ext)s\'';
-	       
+	
+	if ($this->process == null) { 
 	$this->process = new RunYTDL($cmd, $this->CurrentUID, "YT_Audio" );
 	 $this->YTDLOutput = $this->process->queue();
+	}
+	    
 	    
 	if($this->process->isRunning())
 	{
