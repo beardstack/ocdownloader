@@ -362,7 +362,7 @@ class YouTube
 	}
 	
 	
-	#$this->syncDownloadsFolder();
+	$this->syncDownloadsFolder();
 	error_log("HERE --> Scan done", 0);
 
         return null;
