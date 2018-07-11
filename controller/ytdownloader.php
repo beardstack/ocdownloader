@@ -98,7 +98,14 @@ class YTDownloader extends Controller
                 if (!$this->AllowProtocolYT && !\OC_User::isAdminUser($this->CurrentUID)) {
                     throw new \Exception((string)$this->L10N->t('You are not allowed to use the YouTube protocol'));
                 }
-		$yt_config = '/tmp/' . uniqid() . 'conf';
+		
+		$path = "/tmp/ytdownloader/" . uniqid();
+		    
+		if (!file_exists($path)) { 
+			mkdir($path, 0777, true);
+		}    
+		    
+		$yt_config = $path . '/yt-dl.conf';
 		$handle = fopen($yt_config, 'a') or die('Cannot open file:  '.$yt_config);
 		    
 
@@ -127,7 +134,15 @@ class YTDownloader extends Controller
                 if (isset($_POST['OPTIONS']['YTExtractAudio'])
                 && strcmp($_POST['OPTIONS']['YTExtractAudio'], 'true') == 0) {
 			
-			fwrite($handle, "--extract-audio " . "\n");
+                                                                                                                                                                               
+		        fwrite($handle, "--extract-audio" . "\n");                                                                                                                                                                          
+			fwrite($handle, "--embed-thumbnail" . "\n");
+			fwrite($handle, "--add-metadata" . "\n");
+			fwrite($handle, "--no-mtime " . "\n");
+			fwrite($handle, "-o '%(title)s.%(ext)s' " . "\n");
+			fwrite($handle, "--audio-format mp3" . "\n");
+			fwrite($handle, "--yes-playlist" . "\n");
+			
 			fclose($handle);
 			
 			
