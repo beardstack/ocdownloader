@@ -256,7 +256,7 @@ class RunYTDL {
         return $this->exitcode;
     }
 }
-class YouTube 
+class YouTube extends YTDownloader 
 {
     private $YTDLBinary = null;
     private $URL = null;
