@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\ocDownloader\Controller;
+namespace OCA\ocDownloader\Controller\Lib;
 
 use YouTube;
 
