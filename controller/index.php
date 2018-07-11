@@ -9,7 +9,7 @@
  * @copyright Xavier Beurois 2015
  */
 
-namespace OCA\ocDownloader\Controller;
+namespace OC\Files\Utils;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
