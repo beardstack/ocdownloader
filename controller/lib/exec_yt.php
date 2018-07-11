@@ -7,6 +7,8 @@ use OCP\AppFramework\Http\JSONResponse;
 
 use OCP\IL10N;
 use OCP\IRequest;
+use OCA\ocDownloader\Controller\Lib\Tools;
+use OCA\ocDownloader\Controller\Lib\Settings;
 
 class db_queue
 {
