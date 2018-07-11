@@ -17,11 +17,11 @@ Need to gather DID Param (UniqueID for the directory in which configs are stored
 
 Downloading specs are in the /tmp/ytdownloader/$ID directory
 
-
+$YouTube = new YouTube($argv[1], $argv[2], $argv[3] );
+$YouTube->dl();
 */
 
 error_log("ARGUMENTS!!!! ----> " . $argv[1]. " ". $argv[2] . " " . $argv[3]  , 0);
 
-$YouTube = new YouTube($argv[1], $argv[2], $argv[3] );
-$YouTube->dl();
+
 ?>
