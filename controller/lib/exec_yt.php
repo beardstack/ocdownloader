@@ -2,7 +2,7 @@
 
 namespace OCA\ocDownloader\Controller;
 
-use OCA\ocDownloader\Controller\Lib\YouTube;
+use YouTube;
 
 /*
 
