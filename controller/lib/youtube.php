@@ -375,10 +375,12 @@ class YouTube
     } 
 	
 	public function dl($ExtractAudio = false){
+		error_log("HERE --> EXECUTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", 0);
 		$cmd = $this->YTDLBinary . " --batch-file " . $this->DID ."/url " . "--config-location " . $this->DID ."/yt-dl.conf";
 		$this->process = new RunYTDL($cmd, $this->CurrentUID, "YT_Audio" );
 	 	$this->YTDLOutput = $this->process->queue();
 		$this->syncDownloadsFolder();
+		error_log("HERE --> EXECUTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", 0);
 	}
 	
 
