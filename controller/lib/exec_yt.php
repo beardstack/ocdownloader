@@ -302,8 +302,11 @@ class YouTube
     protected function syncDownloadsFolder()
     {
         $user = $this->CurrentUID;
+	    error_log("$user OK\n" , 0);
         $scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
+	    error_log("SCANNER OK\n" , 0);
         $path = '/'.$user.'/files/'.ltrim($this->DownloadsFolder, '/\\');
+	    error_log("$path OK\n" , 0);
         try {
              $scanner->scan($path);
         } 
@@ -323,7 +326,7 @@ class YouTube
 		$cmd = $this->YTDLBinary . " --batch-file " . $this->DID ."/url " . "--config-location " . $this->DID ."/yt-dl.conf";
 		$this->process = new RunYTDL($cmd, $this->CurrentUID, "YT_Audio" );
 	 	$this->YTDLOutput = $this->process->queue();
-		#$this->syncDownloadsFolder();
+		$this->syncDownloadsFolder();
 		error_log("HERE --> EXECUTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", 0);
 	}
 	
@@ -347,8 +350,6 @@ Downloading specs are in the /tmp/ytdownloader/$ID directory
 
 error_log("ARGUMENTS!!!! ----> " . $argv[1]. " ". $argv[2] . " " . $argv[3]  , 0);
 $YouTube = new YouTube($argv[1], $argv[2], $argv[3] );
-error_log("2" , 0);
-
 $YouTube->dl();
 error_log("OOM" , 0);
 
