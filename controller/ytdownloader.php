@@ -118,26 +118,26 @@ class YTDownloader extends Controller
 		
 		 
 
-                $YouTube = new YouTube($this->YTDLBinary, $_POST['FILE']);
+                # $YouTube = new YouTube($this->YTDLBinary, $_POST['FILE']);
 
                 if (!is_null($this->ProxyAddress) && $this->ProxyPort > 0 && $this->ProxyPort <= 65536) {
-			$YouTube->SetProxy($this->ProxyAddress, $this->ProxyPort);
+			# $YouTube->SetProxy($this->ProxyAddress, $this->ProxyPort);
 			fwrite($handle, "--proxy " . $this->ProxyAddress . ":" . $this->ProxyPort ."\n");
                 }
 
                 if (isset($_POST['OPTIONS']['YTForceIPv4']) && strcmp($_POST['OPTIONS']['YTForceIPv4'], 'false') == 0) {
-			$YouTube->SetForceIPv4(false);
+			#$YouTube->SetForceIPv4(false);
                 } else { fwrite($handle, "--force-ipv4 " . "\n"); }
 
 		if (!is_null($this->AbsoluteDownloadsFolder)) {
-			$YouTube->SetDirectory($this->AbsoluteDownloadsFolder);
+			#$YouTube->SetDirectory($this->AbsoluteDownloadsFolder);
 		} else { error_log("AbsoluteDownloadsFolder is null", 0); }
 
 		if (!is_null($this->DownloadsFolder)) {
-			$YouTube->setDownloadsFolder($this->DownloadsFolder);
+			#$YouTube->setDownloadsFolder($this->DownloadsFolder);
 		} else { error_log("DownloadsFolder is null", 0); }
 
-		$YouTube->setCurrentUID($this->CurrentUID);
+		#$YouTube->setCurrentUID($this->CurrentUID);
 
                 // Extract Audio YES
                 if (isset($_POST['OPTIONS']['YTExtractAudio'])
@@ -190,7 +190,7 @@ class YTDownloader extends Controller
 
                 } else // No audio extract
                 {
-                    $VideoData = $YouTube->download();
+                   # $VideoData = $YouTube->download();
 
                 }
 
