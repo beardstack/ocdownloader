@@ -354,6 +354,7 @@ Downloading specs are in the /tmp/ytdownloader/$ID directory
 
 
 */
+error_log("KOOM" , 0);
 
 $YouTube = new YouTube($argv[1], $argv[2], $argv[3] );
 $YouTube->dl();
