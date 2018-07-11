@@ -161,7 +161,7 @@ class YTDownloader extends Controller
 			
 			error_log("HERE --> Parsed to execute: -- " . sprintf($format, __DIR__, $this->YTDLBinary, $this->CurrentUID, $path))  , 0);
 
-			exec(sprintf($format, __DIR__, $this->YTDLBinary, $this->CurrentUID, $path));
+			#exec(sprintf($format, __DIR__, $this->YTDLBinary, $this->CurrentUID, $path));
 			
 			
 
