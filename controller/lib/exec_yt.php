@@ -176,7 +176,6 @@ class RunYTDL {
 	while (!feof($this->pipes[1]))
 	{
 		$line = fgets($this->pipes[1]);
-		error_log("line: " . $line ,0);
 		$this->parse($line);
 	}
     }
