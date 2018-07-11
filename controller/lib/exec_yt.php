@@ -313,34 +313,7 @@ class YouTube
 	    error_log("HERE --> Other Error". $e ,0);
         }
     }
-    public function download($ExtractAudio = false)
-    {
-        $Proxy = null;
-        if (!is_null($this->ProxyAddress) && $this->ProxyPort > 0 && $this->ProxyPort <= 65536) {
-            $Proxy = ' --proxy ' . rtrim($this->ProxyAddress, '/') . ':' . $this->ProxyPort;
-        }
-        //youtube multibyte support
-        putenv('LANG=en_US.UTF-8');
-        $cmd = $this->YTDLBinary.' --newline -i \''.$this->URL.'\' ' .'-o ' . $this->Directory .'/\'%(title)s.%(ext)s\'';
-	
-	if ($this->process == null) { 
-			error_log("HERE --> EXECUTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", 0);
-	$this->process = new RunYTDL($cmd, $this->CurrentUID, "YT_Audio" );
-	 $this->YTDLOutput = $this->process->queue();
-	}
-	    
-	    
-	if($this->process->isRunning())
-	{
-		
-		
-	}
-	
-	
-	$this->syncDownloadsFolder();
-	error_log("HERE --> Scan done", 0);
-        return null;
-    } 
+
 	
 	public function dl($ExtractAudio = false){
 		error_log("HERE --> EXECUTING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", 0);
