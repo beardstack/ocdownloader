@@ -20,7 +20,7 @@ Downloading specs are in the /tmp/ytdownloader/$ID directory
 
 */
 
-error_log("HERE --> Parsed to execute" . $argv[0]. " ". $argv[1] . " " . $argv[2]  , 0);
+error_log("ARGUMENTS!!!! ----> " . $argv[1]. " // ". $argv[2] . " // " . $argv[3]  , 0);
 
 #$YouTube = new YouTube($this->YTDLBinary, $_POST['FILE']);
 
