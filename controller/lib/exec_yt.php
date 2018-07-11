@@ -308,7 +308,7 @@ class YouTube
     protected function syncDownloadsFolder()
     {
         $user = $this->CurrentUID;
-	    error_log("$user OK\n" , 0);
+	    error_log("DB  " . \OC::$server->getDatabaseConnection() , 0);
         $scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
 	    error_log("SCANNER OK\n" , 0);
         $path = '/'.$user.'/files/'.ltrim($this->DownloadsFolder, '/\\');
