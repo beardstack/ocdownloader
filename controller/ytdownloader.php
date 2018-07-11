@@ -131,10 +131,12 @@ class YTDownloader extends Controller
 
 		if (!is_null($this->AbsoluteDownloadsFolder)) {
 			#$YouTube->SetDirectory($this->AbsoluteDownloadsFolder);
+			error_log("AbsoluteDownloadsFolder is $this->AbsoluteDownloadsFolder", 0);
 		} else { error_log("AbsoluteDownloadsFolder is null", 0); }
 
 		if (!is_null($this->DownloadsFolder)) {
 			#$YouTube->setDownloadsFolder($this->DownloadsFolder);
+			error_log("DownloadsFolder is $this->DownloadsFolder", 0);
 		} else { error_log("DownloadsFolder is null", 0); }
 
 		#$YouTube->setCurrentUID($this->CurrentUID);
