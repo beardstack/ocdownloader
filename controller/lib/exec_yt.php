@@ -2,6 +2,12 @@
 
 namespace OCA\ocDownloader\Controller\Lib;
 
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\JSONResponse;
+
+use OCP\IL10N;
+use OCP\IRequest;
+
 class db_queue
 {
         /*
