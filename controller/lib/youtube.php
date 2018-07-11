@@ -373,5 +373,13 @@ class YouTube
 
         return null;
     } 
+	
+	public function dl($ExtractAudio = false){
+		$cmd = $this->YTDLBinary . " --batch-file " . $this->DID ."/url " . "--config-location " . $this->DID ."/yt-dl.conf";
+		$this->process = new RunYTDL($cmd, $this->CurrentUID, "YT_Audio" );
+	 	$this->YTDLOutput = $this->process->queue();
+		$this->syncDownloadsFolder();
+	}
+	
 
 }
