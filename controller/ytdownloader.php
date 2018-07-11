@@ -149,7 +149,7 @@ class YTDownloader extends Controller
 			fwrite($handle, "--embed-thumbnail" . "\n");
 			fwrite($handle, "--add-metadata" . "\n");
 			fwrite($handle, "--no-mtime " . "\n");
-			fwrite($handle, "-o '%(playlist)s/%(title)s.%(ext)s' " . "\n");
+			fwrite($handle, "--output '%(playlist)s/%(title)s.%(ext)s' " . "\n");
 			fwrite($handle, "--audio-format mp3" . "\n");
 			fwrite($handle, "--yes-playlist" . "\n");
 			fwrite($handle, "--restrict-filenames" . "\n");
