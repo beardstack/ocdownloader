@@ -161,14 +161,14 @@ class YTDownloader extends Controller
 			#/usr/local/php
 			$format = "sudo /usr/local/bin/php %s/lib/exec_yt.php %s %s %s";
 			$cmd = sprintf($format, __DIR__, $this->YTDLBinary, $this->CurrentUID, $path);
-			error_log("HERE --> Parsed to execute: -- " . $cmd  , 0);
-
-			exec($cmd);
-			
 			
 
 			
-/*
+			
+			
+
+			
+
 			$pid = pcntl_fork();
 			if ($pid == -1) {
 			     die('could not fork');
@@ -176,10 +176,10 @@ class YTDownloader extends Controller
 			     // we are the parent
 			     pcntl_wait($status); //Protect against Zombie children
 			} else {
-			     $YouTube->download(true);
+			     exec($cmd);
 			}
                         
-*/
+
 			#$VideoData = $YouTube->download(true);
 
 			
