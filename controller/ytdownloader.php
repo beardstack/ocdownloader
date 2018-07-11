@@ -1,13 +1,8 @@
 <?php
 /**
- * ownCloud - ocDownloader
+ * Nextcloud - ncDownloader
  *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the LICENSE file.
- *
- * @author Xavier Beurois <www.sgc-univ.net>
- * @copyright Xavier Beurois 2015
- */
+*/
 
 namespace OCA\ocDownloader\Controller;
 
@@ -103,16 +98,20 @@ class YTDownloader extends Controller
                 if (!$this->AllowProtocolYT && !\OC_User::isAdminUser($this->CurrentUID)) {
                     throw new \Exception((string)$this->L10N->t('You are not allowed to use the YouTube protocol'));
                 }
+		$yt_config = '/tmp/' . uniqid() . 'conf';
+		$handle = fopen($yt_config, 'a') or die('Cannot open file:  '.$yt_config);
+		    
 
                 $YouTube = new YouTube($this->YTDLBinary, $_POST['FILE']);
 
                 if (!is_null($this->ProxyAddress) && $this->ProxyPort > 0 && $this->ProxyPort <= 65536) {
-                    $YouTube->SetProxy($this->ProxyAddress, $this->ProxyPort);
+			$YouTube->SetProxy($this->ProxyAddress, $this->ProxyPort);
+			fwrite($handle, "--proxy " . $this->ProxyAddress . ":" . $this->ProxyPort ."\n");
                 }
 
                 if (isset($_POST['OPTIONS']['YTForceIPv4']) && strcmp($_POST['OPTIONS']['YTForceIPv4'], 'false') == 0) {
 			$YouTube->SetForceIPv4(false);
-                }
+                } else { fwrite($handle, "--force-ipv4 " . "\n"); }
 
 		if (!is_null($this->AbsoluteDownloadsFolder)) {
 			$YouTube->SetDirectory($this->AbsoluteDownloadsFolder);
@@ -127,6 +126,10 @@ class YTDownloader extends Controller
                 // Extract Audio YES
                 if (isset($_POST['OPTIONS']['YTExtractAudio'])
                 && strcmp($_POST['OPTIONS']['YTExtractAudio'], 'true') == 0) {
+			
+			fwrite($handle, "--extract-audio " . "\n");
+			fclose($handle);
+			
 			
 /*
 			$pid = pcntl_fork();
