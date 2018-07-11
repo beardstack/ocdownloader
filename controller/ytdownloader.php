@@ -105,9 +105,18 @@ class YTDownloader extends Controller
 			mkdir($path, 0777, true);
 		}    
 		    
+		/* write url to file */
+		$yt_input = $path . '/url';
+		$handle = fopen($yt_input, 'a') or die('Cannot open file:  '.$yt_input);
+		fwrite($handle,  $_POST['FILE'] . "\n");  
+		fclose($handle);
+		
+		/* write configuration to file */
 		$yt_config = $path . '/yt-dl.conf';
 		$handle = fopen($yt_config, 'a') or die('Cannot open file:  '.$yt_config);
-		    
+		
+		
+		 
 
                 $YouTube = new YouTube($this->YTDLBinary, $_POST['FILE']);
 
@@ -134,7 +143,8 @@ class YTDownloader extends Controller
                 if (isset($_POST['OPTIONS']['YTExtractAudio'])
                 && strcmp($_POST['OPTIONS']['YTExtractAudio'], 'true') == 0) {
 			
-                                                                                                                                                                               
+			fwrite($handle, "--newline" . "\n");  
+                        fwrite($handle, "--ignore-errors" . "\n");                                                                                                                                                       
 		        fwrite($handle, "--extract-audio" . "\n");                                                                                                                                                                          
 			fwrite($handle, "--embed-thumbnail" . "\n");
 			fwrite($handle, "--add-metadata" . "\n");
@@ -142,6 +152,7 @@ class YTDownloader extends Controller
 			fwrite($handle, "-o '%(playlist)s/%(title)s.%(ext)s' " . "\n");
 			fwrite($handle, "--audio-format mp3" . "\n");
 			fwrite($handle, "--yes-playlist" . "\n");
+			fwrite($handle, "--restrict-filenames" . "\n");
 			
 			fclose($handle);
 			
