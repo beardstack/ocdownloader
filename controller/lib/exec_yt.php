@@ -1,6 +1,6 @@
 <?php
 
-namespace OCA\ocDownloader\Controller\Lib;
+namespace OCA\ocDownloader\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
