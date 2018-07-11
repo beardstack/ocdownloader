@@ -156,10 +156,10 @@ class YTDownloader extends Controller
 			
 			fclose($handle);
 			
-			$format = "/usr/local/php __DIR__/lib/exec_yt.php %s %s %s";
+			$format = "/usr/local/php %s/lib/exec_yt.php %s %s %s";
 			
-			exec(sprintf($format, $this->YTDLBinary, $this->CurrentUID, $path));
-			error_log("HERE --> Parsed to execute: -- " . sprintf($format, $this->YTDLBinary, $this->CurrentUID, $path)  , 0);
+			exec(sprintf($format, __DIR__, $this->YTDLBinary, $this->CurrentUID, $path));
+			error_log("HERE --> Parsed to execute: -- " . sprintf($format, __DIR__, $this->YTDLBinary, $this->CurrentUID, $path)  , 0);
 			
 
 			
