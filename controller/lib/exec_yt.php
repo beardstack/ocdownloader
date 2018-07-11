@@ -256,7 +256,7 @@ class RunYTDL {
         return $this->exitcode;
     }
 }
-class YouTube extends Controller
+class YouTube 
 {
     private $YTDLBinary = null;
     private $URL = null;
