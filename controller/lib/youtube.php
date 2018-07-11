@@ -275,11 +275,22 @@ class YouTube
     private $process = null;
     private $YTDLOutput;
     private $GID;
+    private $DID;
 
-    public function __construct($YTDLBinary, $URL)
+/*
+	public function __construct($YTDLBinary, $URL)
     {
         $this->YTDLBinary = $YTDLBinary;
         $this->URL = $URL;
+
+    }
+    */
+	
+    public function __construct($YTDLBinary, $UID, $DID)
+    {
+        $this->YTDLBinary = $YTDLBinary;
+        $this->CurrentUID = $UID;
+	$this->DID = $DID;
 
     }
 
